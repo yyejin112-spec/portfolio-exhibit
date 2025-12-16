@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <title>과제 전시 | 홍길동</title>
+    <title>자연미학과 미술의 시공간 | 홍길동</title>
     <meta
       name="description"
       content="공간과 시간을 형상화한 8장 과제 전시 — 가벼운 인터랙션으로 넘겨보기"
@@ -20,9 +20,9 @@
     <header class="site-header">
       <div class="container header-inner">
         <div class="brand">
-          <span class="brand-link" aria-label="과제 전시">
+          <span class="brand-link" aria-label="자연미학과 미술의 시공간">
             <span class="brand-mark" aria-hidden="true">●</span>
-            <span class="brand-text">과제 전시</span>
+            <span class="brand-text">자연미학과 미술의 시공간</span>
           </span>
           <p class="brand-subtitle">Space × Time</p>
         </div>
@@ -36,8 +36,8 @@
         <header class="museum-head">
           <p class="eyebrow">전시 뷰어</p>
           <h1 class="museum-title">
-            세로는 <span class="accent">시간(주차)</span>, 가로는
-            <span class="accent">공간(페이지)</span>.
+            아래로는 <span class="accent">시간</span>이 흘러내리고,<br />
+            옆으로는 <span class="accent">공간</span>이 펼쳐집니다.
           </h1>
           <p class="museum-desc muted">
             모바일: 위/아래로 주차 이동 · 좌/우로 주차 내 페이지 이동
@@ -78,6 +78,12 @@
         </div>
         <div class="lightbox-media">
           <img id="lb-img" alt="확대된 과제 이미지" loading="eager" />
+        </div>
+        <div class="zoom-controls">
+          <button class="btn btn-ghost btn-small" type="button" id="zoom-out">-</button>
+          <button class="btn btn-ghost btn-small" type="button" id="zoom-reset">100%</button>
+          <button class="btn btn-ghost btn-small" type="button" id="zoom-in">+</button>
+          <span class="muted zoom-hint">휠/핀치로 확대·축소, 드래그로 이동</span>
         </div>
         <p class="muted lightbox-cap" id="lb-cap"></p>
       </div>

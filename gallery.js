@@ -1,86 +1,77 @@
 // 세로(주차) × 가로(주차 내 페이지) 스크롤 그리드 전시
-// - 세로 스크롤: 1주차 → 2주차 → …
-// - 가로 스크롤: 해당 주차의 여러 장(2~3장 등)
-// - 3D 느낌: 가로 스크롤 위치에 따라 카드가 rotateY/translateZ로 입체감
-// - 탭/클릭: 라이트박스(확대 보기)
+// - 세로 스크롤: 1주차 → 8주차
+// - 7주차만 2장 가로 배치
+// - 클릭: 라이트박스(확대/축소/드래그)
 
 // 주차(시간) → 주차 안의 여러 화면(이미지) 구조
 // 원하는 만큼 items를 늘리면 그리드가 자동으로 맞춰집니다.
 const GROUPS = [
+  // 1~6주차: 각 1장 (Frame 1~6)
   {
     timestamp: "1주차",
     title: "1주차",
     items: [
-      {
-        title: "Page 1",
-        caption: "짧은 설명(선택). 예: 아이디어 스케치와 구성 탐색.",
-        src: "./assets/pages/page-01.svg",
-      },
-      {
-        title: "Page 2",
-        caption: "예: 레이아웃 실험과 동선 설계.",
-        src: "./assets/pages/page-02.svg",
-      },
-      {
-        title: "Page 3",
-        caption: "예: 재료/표현 방식 비교.",
-        src: "./assets/pages/page-03.svg",
-      },
+      { title: "Page 1", caption: "1주차 이미지", src: "./assets/pages/Frame%201.png" },
     ],
   },
   {
     timestamp: "2주차",
     title: "2주차",
     items: [
-      {
-        title: "Page 4",
-        caption: "예: 최종 컨셉 확정 전 단계.",
-        src: "./assets/pages/page-04.svg",
-      },
+      { title: "Page 2", caption: "2주차 이미지", src: "./assets/pages/Frame%202.png" },
     ],
   },
   {
     timestamp: "3주차",
     title: "3주차",
     items: [
-      {
-        title: "Page 5",
-        caption: "예: 디테일 보강, 문장/표기 정리.",
-        src: "./assets/pages/page-05.svg",
-      },
+      { title: "Page 3", caption: "3주차 이미지", src: "./assets/pages/Frame%203.png" },
     ],
   },
   {
     timestamp: "4주차",
     title: "4주차",
     items: [
-      {
-        title: "Page 6",
-        caption: "예: 수정본/피드백 반영.",
-        src: "./assets/pages/page-06.svg",
-      },
+      { title: "Page 4", caption: "4주차 이미지", src: "./assets/pages/Frame%204.png" },
     ],
   },
   {
     timestamp: "5주차",
     title: "5주차",
     items: [
-      {
-        title: "Page 7",
-        caption: "예: 최종본 직전 검수.",
-        src: "./assets/pages/page-07.svg",
-      },
+      { title: "Page 5", caption: "5주차 이미지", src: "./assets/pages/Frame%205.png" },
     ],
   },
   {
-    timestamp: "최종",
-    title: "최종",
+    timestamp: "6주차",
+    title: "6주차",
+    items: [
+      { title: "Page 6", caption: "6주차 이미지", src: "./assets/pages/Frame%206.png" },
+    ],
+  },
+  // 7주차: 2장 (한글 파일명)
+  {
+    timestamp: "7주차",
+    title: "7주차",
     items: [
       {
-        title: "Page 8",
-        caption: "예: 최종 결과 및 회고.",
-        src: "./assets/pages/page-08.svg",
+        title: "Page 7-1",
+        caption: "7주차 첫 번째 이미지",
+        src: "./assets/pages/%EC%8B%9C%EA%B0%84%EA%B3%BC%20%EA%B3%B5%EA%B0%84,%20%EA%B3%B5%EA%B0%84%EA%B3%BC%20%EC%8B%9C%EA%B0%84%20%EC%82%AC%EC%9D%B4%EC%9D%98%20%EC%96%B4%EB%96%A4%20%EA%B3%B5%ED%86%B5%EC%A0%90%EC%9D%B4%20%EC%9E%88%EC%9D%84%EA%B9%8C%201.png",
       },
+      {
+        title: "Page 7-2",
+        caption: "7주차 두 번째 이미지",
+        src: "./assets/pages/%EC%8B%9C%EA%B0%84%EA%B3%BC%20%EA%B3%B5%EA%B0%84,%20%EA%B3%B5%EA%B0%84%EA%B3%BC%20%EC%8B%9C%EA%B0%84%20%EC%82%AC%EC%9D%B4%EC%9D%98%20%EC%96%B4%EB%96%A4%20%EA%B3%B5%ED%86%B5%EC%A0%90%EC%9D%B4%20%EC%9E%88%EC%9D%84%EA%B9%8C%202.png",
+      },
+    ],
+  },
+  // 8주차: Frame 7
+  {
+    timestamp: "8주차",
+    title: "8주차",
+    items: [
+      { title: "Page 8", caption: "8주차 이미지", src: "./assets/pages/Frame%207.png" },
     ],
   },
 ];
@@ -97,28 +88,41 @@ function escHtml(str) {
 }
 
 function init() {
-  const weeksRoot = document.getElementById("weeks");
+  const board = document.getElementById("board");
+  const grid = document.getElementById("board-grid");
   const lightbox = document.getElementById("lightbox");
   const lbImg = document.getElementById("lb-img");
   const lbTs = document.getElementById("lb-ts");
   const lbTitle = document.getElementById("lb-title");
   const lbCap = document.getElementById("lb-cap");
+  const zoomInBtn = document.getElementById("zoom-in");
+  const zoomOutBtn = document.getElementById("zoom-out");
+  const zoomResetBtn = document.getElementById("zoom-reset");
 
-  if (!(weeksRoot instanceof HTMLElement)) return;
+  if (!(board instanceof HTMLElement) || !(grid instanceof HTMLElement)) return;
 
   const groups = GROUPS.filter((g) => Array.isArray(g.items) && g.items.length > 0);
   if (groups.length === 0) return;
 
-  // Render weeks (vertical) and items (horizontal)
-  weeksRoot.innerHTML = groups
-    .map((g, gi) => {
-      const items = g.items
+  const cols = Math.max(...groups.map((g) => g.items.length));
+  const rows = groups.length;
+  grid.style.setProperty("--cols", String(cols));
+  grid.style.setProperty("--rows", String(rows));
+
+  const cellsHtml = groups
+    .map((g, gi) =>
+      g.items
         .map((it, ii) => {
           const aria = `${g.timestamp} ${ii + 1}/${g.items.length} · ${it.title}`;
           return `
-            <button class="cell" type="button" data-week="${gi}" data-item="${ii}" aria-label="${escHtml(
-              aria,
-            )}">
+            <button
+              class="cell"
+              type="button"
+              data-week="${gi}"
+              data-item="${ii}"
+              aria-label="${escHtml(aria)}"
+              style="grid-row:${gi + 1}; grid-column:${ii + 1};"
+            >
               <img src="${escHtml(it.src)}" alt="${escHtml(aria)}" loading="${
             gi === 0 && ii === 0 ? "eager" : "lazy"
           }" />
@@ -129,55 +133,41 @@ function init() {
             </button>
           `;
         })
-        .join("");
-
-      return `
-        <section class="week" id="week-${gi}" data-week="${gi}" aria-label="${escHtml(
-        g.title,
-      )}">
-          <header class="week-head">
-            <div class="week-title">
-              <span class="stamp">${escHtml(g.timestamp)}</span>
-              <strong>${escHtml(g.title)}</strong>
-            </div>
-            <div class="week-meta">${g.items.length}장</div>
-          </header>
-          <div class="row" data-week="${gi}" tabindex="0" role="group" aria-label="${escHtml(
-        `${g.timestamp} 페이지 목록(가로 스크롤)`,
-      )}">
-            ${items}
-          </div>
-        </section>
-      `;
-    })
+        .join(""),
+    )
     .join("");
 
-  // 3D effect for each horizontal row
-  const rows = Array.from(weeksRoot.querySelectorAll(".row"));
-  const rafMap = new WeakMap();
+  grid.innerHTML = cellsHtml;
 
-  const updateRow3D = (row) => {
-    const rect = row.getBoundingClientRect();
-    const center = rect.left + rect.width / 2;
-    const maxTilt = 36;
-    const maxZ = 120;
+  // 3D effect based on board center
+  const rafState3D = { id: 0 };
+  const update3D = () => {
+    const rect = board.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const maxTiltX = 18;
+    const maxTiltY = 30;
+    const maxZ = 140;
     const minScale = 0.82;
 
-    const cells = Array.from(row.querySelectorAll(".cell"));
+    const cells = Array.from(grid.querySelectorAll(".cell"));
     for (const cell of cells) {
       const r = cell.getBoundingClientRect();
-      const c = r.left + r.width / 2;
-      const dx = (c - center) / rect.width; // approx -0.5..0.5
-      const d = clamp(dx * 2.2, -1, 1); // -1..1
-      const abs = Math.abs(d);
+      const x = r.left + r.width / 2;
+      const y = r.top + r.height / 2;
+      const nx = clamp((x - cx) / rect.width, -0.8, 0.8);
+      const ny = clamp((y - cy) / rect.height, -0.8, 0.8);
+      const dist = clamp(Math.sqrt(nx * nx + ny * ny) * 1.25, 0, 1);
 
-      const ry = clamp(-d * maxTilt, -55, 55);
-      const z = (1 - abs) * maxZ;
-      const sc = clamp(minScale + (1 - abs) * (1 - minScale), minScale, 1);
-      const op = clamp(0.25 + (1 - abs) * 0.75, 0.18, 1);
-      const blur = clamp(abs * 1.6, 0, 2.2);
+      const ry = clamp(-nx * maxTiltY, -55, 55);
+      const rx = clamp(ny * maxTiltX, -35, 35);
+      const z = (1 - dist) * maxZ;
+      const sc = clamp(minScale + (1 - dist) * (1 - minScale), minScale, 1);
+      const op = clamp(0.22 + (1 - dist) * 0.78, 0.18, 1);
+      const blur = clamp(dist * 1.9, 0, 2.4);
 
       cell.style.setProperty("--ry", `${ry}deg`);
+      cell.style.setProperty("--rx", `${rx}deg`);
       cell.style.setProperty("--z", `${z}px`);
       cell.style.setProperty("--sc", String(sc));
       cell.style.setProperty("--op", String(op));
@@ -185,21 +175,17 @@ function init() {
     }
   };
 
-  const scheduleUpdate = (row) => {
-    if (rafMap.get(row)) return;
-    const id = requestAnimationFrame(() => {
-      rafMap.delete(row);
-      updateRow3D(row);
+  const schedule3D = () => {
+    if (rafState3D.id) return;
+    rafState3D.id = requestAnimationFrame(() => {
+      rafState3D.id = 0;
+      update3D();
     });
-    rafMap.set(row, id);
   };
 
-  for (const row of rows) {
-    // initial
-    updateRow3D(row);
-    row.addEventListener("scroll", () => scheduleUpdate(row), { passive: true });
-  }
-  window.addEventListener("resize", () => rows.forEach(updateRow3D));
+  update3D();
+  board.addEventListener("scroll", schedule3D, { passive: true });
+  window.addEventListener("resize", update3D);
 
   // Lightbox
   let lastFocus = null;
@@ -224,6 +210,7 @@ function init() {
     lbTs.textContent = g.timestamp;
     lbTitle.textContent = it.title;
     lbCap.textContent = it.caption || "";
+    resetZoom();
 
     lightbox.hidden = false;
     document.documentElement.style.overflow = "hidden";
@@ -240,7 +227,7 @@ function init() {
     lastFocus = null;
   };
 
-  weeksRoot.addEventListener("click", (e) => {
+  grid.addEventListener("click", (e) => {
     const target = e.target;
     const cell = target instanceof HTMLElement ? target.closest(".cell") : null;
     if (!(cell instanceof HTMLElement)) return;
@@ -264,19 +251,151 @@ function init() {
     if (lightbox instanceof HTMLElement && !lightbox.hidden) closeLightbox();
   });
 
-  // Optional: arrow keys for rows (small UX boost)
-  weeksRoot.addEventListener("keydown", (e) => {
-    const target = e.target;
-    if (!(target instanceof HTMLElement)) return;
-    const row = target.closest(".row");
-    if (!(row instanceof HTMLElement)) return;
-
-    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+  // Arrow keys to move around the board
+  board.addEventListener("keydown", (e) => {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
     e.preventDefault();
-    const dir = e.key === "ArrowRight" ? 1 : -1;
-    const step = clamp(row.getBoundingClientRect().width * 0.8, 280, 520);
-    row.scrollBy({ left: dir * step, behavior: "smooth" });
+    const sample = grid.querySelector(".cell");
+    if (!(sample instanceof HTMLElement)) return;
+    const rect = sample.getBoundingClientRect();
+    const stepX = rect.width + 14;
+    const stepY = rect.height + 14;
+    const dx = e.key === "ArrowLeft" ? -stepX : e.key === "ArrowRight" ? stepX : 0;
+    const dy = e.key === "ArrowUp" ? -stepY : e.key === "ArrowDown" ? stepY : 0;
+    board.scrollBy({ left: dx, top: dy, behavior: "smooth" });
   });
+
+  // Zoom & pan
+  let scale = 1;
+  let tx = 0;
+  let ty = 0;
+  const minScale = 1;
+  const maxScale = 4;
+  const pointers = new Map();
+  let pinchStartScale = 1;
+  let pinchStartDist = 0;
+  let pinchMid = { x: 0, y: 0 };
+
+  const applyZoom = () => {
+    if (!(lbImg instanceof HTMLImageElement)) return;
+    lbImg.style.setProperty("--scale", String(scale));
+    lbImg.style.setProperty("--tx", `${tx}px`);
+    lbImg.style.setProperty("--ty", `${ty}px`);
+  };
+
+  const resetZoom = () => {
+    scale = 1;
+    tx = 0;
+    ty = 0;
+    applyZoom();
+  };
+
+  const clampPan = () => {
+    if (!(lbImg instanceof HTMLImageElement)) return;
+    const rect = lbImg.getBoundingClientRect();
+    const container = lbImg.parentElement?.getBoundingClientRect();
+    if (!container) return;
+    const maxTx = Math.max(0, (rect.width * scale - container.width) / 2);
+    const maxTy = Math.max(0, (rect.height * scale - container.height) / 2);
+    tx = Math.min(maxTx, Math.max(-maxTx, tx));
+    ty = Math.min(maxTy, Math.max(-maxTy, ty));
+  };
+
+  const doZoom = (delta, cx, cy) => {
+    const prev = scale;
+    scale = clamp(scale * delta, minScale, maxScale);
+    if (!(lbImg instanceof HTMLImageElement)) return;
+    const rect = lbImg.getBoundingClientRect();
+    const midX = cx ?? rect.left + rect.width / 2;
+    const midY = cy ?? rect.top + rect.height / 2;
+    const dx = midX - (rect.left + rect.width / 2);
+    const dy = midY - (rect.top + rect.height / 2);
+    if (scale !== prev) {
+      tx -= (dx / prev) * (scale - prev);
+      ty -= (dy / prev) * (scale - prev);
+      clampPan();
+      applyZoom();
+    }
+  };
+
+  if (lbImg instanceof HTMLImageElement) {
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+
+    lbImg.addEventListener(
+      "wheel",
+      (e) => {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 1.1 : 0.9;
+        doZoom(delta, e.clientX, e.clientY);
+      },
+      { passive: false },
+    );
+
+    lbImg.addEventListener("pointerdown", (e) => {
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointers.size === 1 && scale > 1) {
+        dragging = true;
+        startX = e.clientX - tx;
+        startY = e.clientY - ty;
+        lbImg.setPointerCapture?.(e.pointerId);
+        lbImg.style.transition = "none";
+      }
+      if (pointers.size === 2) {
+        const pts = Array.from(pointers.values());
+        const dx = pts[0].x - pts[1].x;
+        const dy = pts[0].y - pts[1].y;
+        pinchStartDist = Math.hypot(dx, dy);
+        pinchStartScale = scale;
+        pinchMid = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 };
+        dragging = false;
+        lbImg.style.transition = "none";
+      }
+    });
+
+    const endDrag = () => {
+      dragging = false;
+      pointers.clear();
+      lbImg.style.transition = "";
+    };
+
+    lbImg.addEventListener("pointermove", (e) => {
+      if (!pointers.has(e.pointerId)) return;
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (pointers.size === 2) {
+        const pts = Array.from(pointers.values());
+        const dx = pts[0].x - pts[1].x;
+        const dy = pts[0].y - pts[1].y;
+        const dist = Math.hypot(dx, dy);
+        if (pinchStartDist > 0) {
+          const target = clamp(pinchStartScale * (dist / pinchStartDist), minScale, maxScale);
+          const factor = target / scale;
+          doZoom(factor, pinchMid.x, pinchMid.y);
+        }
+      } else if (dragging) {
+        tx = e.clientX - startX;
+        ty = e.clientY - startY;
+        clampPan();
+        applyZoom();
+      }
+    });
+
+    lbImg.addEventListener("pointerup", endDrag);
+    lbImg.addEventListener("pointercancel", endDrag);
+    lbImg.addEventListener("pointerleave", endDrag);
+  }
+
+  if (zoomInBtn instanceof HTMLButtonElement) {
+    zoomInBtn.addEventListener("click", () => doZoom(1.15));
+  }
+  if (zoomOutBtn instanceof HTMLButtonElement) {
+    zoomOutBtn.addEventListener("click", () => doZoom(0.85));
+  }
+  if (zoomResetBtn instanceof HTMLButtonElement) {
+    zoomResetBtn.addEventListener("click", resetZoom);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", init);

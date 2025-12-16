@@ -1,7 +1,7 @@
 /* Gallery as "museum" (background + 3D coverflow) */
 .gallery-body {
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.95)),
     url("./assets/museum-bg.svg");
   background-size: cover;
   background-position: center;
@@ -28,10 +28,10 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(800px 420px at 50% 30%, rgba(118, 228, 247, 0.12), transparent 60%),
-    radial-gradient(900px 520px at 70% 40%, rgba(167, 139, 250, 0.10), transparent 60%);
-  mix-blend-mode: screen;
-  opacity: 0.8;
+    radial-gradient(800px 420px at 50% 30%, rgba(118, 164, 247, 0.20), transparent 60%),
+    radial-gradient(900px 520px at 70% 40%, rgba(167, 173, 255, 0.16), transparent 60%);
+  mix-blend-mode: normal;
+  opacity: 0.6;
 }
 
 .museum-ui {
@@ -56,14 +56,10 @@
 
 .gridspace {
   margin-top: 14px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
   position: relative;
   overflow: hidden;
-}
-
-[data-theme="light"] .gridspace {
-  background: rgba(255, 255, 255, 0.75);
 }
 
 .grid-hint {
@@ -75,12 +71,8 @@
   padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(0, 0, 0, 0.20);
+  background: rgba(255, 255, 255, 0.8);
   z-index: 3;
-}
-
-[data-theme="light"] .grid-hint {
-  background: rgba(255, 255, 255, 0.65);
 }
 
 .board {
@@ -96,7 +88,7 @@
 }
 
 .board-grid {
-  --gap: 12px;
+  --gap: 14px;
   --cellW: min(520px, 78vw);
   --cellH: min(520px, 78vw);
   display: grid;
@@ -105,7 +97,7 @@
   height: max-content;
   grid-template-columns: repeat(var(--cols, 3), var(--cellW));
   grid-template-rows: repeat(var(--rows, 6), var(--cellH));
-  padding: 46px 6px 14px 6px;
+  padding: 52px 8px 20px 8px;
   position: relative;
 }
 
@@ -115,12 +107,8 @@
 }
 
 .board::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(19, 22, 42, 0.18);
   border-radius: 999px;
-}
-
-[data-theme="light"] .board::-webkit-scrollbar-thumb {
-  background: rgba(19, 22, 42, 0.12);
 }
 
 .board:focus-visible {
@@ -141,25 +129,14 @@
   background: rgba(19, 22, 42, 0.03);
 }
 
-.week-title strong {
-  font-size: 16px;
-  letter-spacing: -0.01em;
-}
-
-.week-meta {
-  font-size: 13px;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
 .cell {
   scroll-snap-align: center;
   border: none;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(19, 22, 42, 0.12);
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.07);
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.45);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 40px rgba(19, 22, 42, 0.18);
   position: relative;
   padding: 0;
   cursor: pointer;
@@ -179,18 +156,13 @@
   outline-offset: 4px;
 }
 
-[data-theme="light"] .cell {
-  border-color: rgba(19, 22, 42, 0.18);
-  box-shadow: 0 18px 42px rgba(19, 22, 42, 0.20);
-}
-
 .cell img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
   aspect-ratio: 4 / 3;
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .cell-cap {
@@ -200,10 +172,10 @@
   bottom: 12px;
   padding: 10px 12px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(8px);
-  color: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(19, 22, 42, 0.12);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  color: rgba(19, 22, 42, 0.86);
   font-size: 13px;
   display: grid;
   gap: 6px;
@@ -225,35 +197,6 @@
   opacity: 0.9;
 }
 
-.timeline {
-  display: grid;
-  gap: 8px;
-}
-
-.timeline input[type="range"] {
-  width: 100%;
-  accent-color: var(--accent);
-}
-
-.ticks {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.ticks span {
-  text-align: center;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .weeks,
-  .row {
-    scroll-behavior: auto;
-  }
-}
-
-/* Lightbox (tap to enlarge) */
 .lightbox[hidden] {
   display: none;
 }
@@ -311,6 +254,7 @@
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.03);
   overflow: hidden;
+  position: relative;
 }
 
 .lightbox-media img {
@@ -319,10 +263,26 @@
   max-height: 62vh;
   object-fit: contain;
   display: block;
+  transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) scale(var(--scale, 1));
+  transform-origin: center center;
+  transition: transform 160ms ease;
+  touch-action: none; /* 모바일 핀치/드래그 */
 }
 
 .lightbox-cap {
   margin: 10px 2px 0 2px;
+}
+
+.zoom-controls {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.zoom-hint {
+  font-size: 13px;
 }
 
 
