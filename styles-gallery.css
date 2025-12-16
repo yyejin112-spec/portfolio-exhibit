@@ -1,0 +1,328 @@
+/* Gallery as "museum" (background + 3D coverflow) */
+.gallery-body {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)),
+    url("./assets/museum-bg.svg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  /* vertical week scroll snap on the page */
+  scroll-snap-type: y proximity;
+  scroll-padding-top: 92px;
+}
+
+@media (max-width: 980px) {
+  .gallery-body {
+    background-attachment: scroll;
+  }
+}
+
+.museum {
+  min-height: 100vh;
+  padding: 30px 0 50px 0;
+  position: relative;
+}
+
+.museum-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(800px 420px at 50% 30%, rgba(118, 228, 247, 0.12), transparent 60%),
+    radial-gradient(900px 520px at 70% 40%, rgba(167, 139, 250, 0.10), transparent 60%);
+  mix-blend-mode: screen;
+  opacity: 0.8;
+}
+
+.museum-ui {
+  position: relative;
+  z-index: 2;
+}
+
+.museum-head {
+  margin: 18px 0 14px 0;
+}
+
+.museum-title {
+  margin: 6px 0 8px 0;
+  font-size: clamp(26px, 3.2vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.museum-desc {
+  margin: 0;
+}
+
+.gridspace {
+  margin-top: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="light"] .gridspace {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.grid-hint {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.20);
+  z-index: 3;
+}
+
+[data-theme="light"] .grid-hint {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.board {
+  height: min(72vh, 640px);
+  overflow: auto;
+  padding: 12px;
+  scroll-snap-type: both proximity;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  perspective: 1200px;
+  outline: none;
+  position: relative;
+}
+
+.board-grid {
+  --gap: 12px;
+  --cellW: min(520px, 78vw);
+  --cellH: min(520px, 78vw);
+  display: grid;
+  gap: var(--gap);
+  width: max-content;
+  height: max-content;
+  grid-template-columns: repeat(var(--cols, 3), var(--cellW));
+  grid-template-rows: repeat(var(--rows, 6), var(--cellH));
+  padding: 46px 6px 14px 6px;
+  position: relative;
+}
+
+.board::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.board::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+[data-theme="light"] .board::-webkit-scrollbar-thumb {
+  background: rgba(19, 22, 42, 0.12);
+}
+
+.board:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 4px;
+}
+
+.stamp {
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="light"] .stamp {
+  background: rgba(19, 22, 42, 0.03);
+}
+
+.week-title strong {
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.week-meta {
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.cell {
+  scroll-snap-align: center;
+  border: none;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.45);
+  position: relative;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  opacity: var(--op, 1);
+  transform:
+    translate3d(0, 0, var(--z, 0px))
+    rotateY(var(--ry, 0deg))
+    scale(var(--sc, 1));
+  filter: blur(var(--blur, 0px));
+}
+
+.cell:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 4px;
+}
+
+[data-theme="light"] .cell {
+  border-color: rgba(19, 22, 42, 0.18);
+  box-shadow: 0 18px 42px rgba(19, 22, 42, 0.20);
+}
+
+.cell img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.cell-cap {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  display: grid;
+  gap: 6px;
+}
+
+[data-theme="light"] .cell-cap {
+  border-color: rgba(19, 22, 42, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+  color: rgba(19, 22, 42, 0.86);
+}
+
+.cell-cap strong {
+  font-weight: 700;
+}
+
+.cell-cap p {
+  margin: 0;
+  color: inherit;
+  opacity: 0.9;
+}
+
+.timeline {
+  display: grid;
+  gap: 8px;
+}
+
+.timeline input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.ticks {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.ticks span {
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weeks,
+  .row {
+    scroll-behavior: auto;
+  }
+}
+
+/* Lightbox (tap to enlarge) */
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+.lightbox-dialog {
+  position: relative;
+  width: min(980px, 100%);
+  max-height: min(86vh, 820px);
+  overflow: auto;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(10, 12, 16, 0.78);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+  padding: 14px;
+}
+
+[data-theme="light"] .lightbox-dialog {
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.lightbox-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.lightbox-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.lightbox-media {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.lightbox-media img {
+  width: 100%;
+  height: auto;
+  max-height: 62vh;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-cap {
+  margin: 10px 2px 0 2px;
+}
+
+

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#76e4f7"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <radialGradient id="r" cx="20%" cy="0%" r="90%">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#0b0c10" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0b0c10"/>
+  <rect width="1200" height="630" fill="url(#r)"/>
+  <circle cx="980" cy="120" r="260" fill="#76e4f7" opacity="0.12"/>
+  <circle cx="980" cy="120" r="170" fill="#a78bfa" opacity="0.12"/>
+  <circle cx="130" cy="120" r="260" fill="#a78bfa" opacity="0.12"/>
+
+  <g font-family="ui-sans-serif, system-ui, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+    <text x="90" y="250" font-size="64" font-weight="800" fill="#e8eaf2">홍길동</text>
+    <text x="90" y="325" font-size="36" font-weight="600" fill="url(#g)">포트폴리오</text>
+    <text x="90" y="395" font-size="26" fill="#a7adbf">프로젝트 · 기술 · 경력 · 연락처</text>
+  </g>
+
+  <rect x="90" y="450" width="340" height="10" rx="5" fill="url(#g)" opacity="0.9"/>
+</svg>
+
+

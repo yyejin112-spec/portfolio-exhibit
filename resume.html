@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>홍길동 | 이력서</title>
+    <meta name="description" content="홍길동 이력서" />
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <style>
+      :root {
+        --bg: #0b0c10;
+        --text: #e8eaf2;
+        --muted: #a7adbf;
+        --border: rgba(255, 255, 255, 0.12);
+        --card: rgba(255, 255, 255, 0.06);
+        --accent: #76e4f7;
+        --accent2: #a78bfa;
+        --radius: 14px;
+        --container: 860px;
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #ffffff;
+          --text: #13162a;
+          --muted: #5b647a;
+          --border: rgba(19, 22, 42, 0.12);
+          --card: rgba(19, 22, 42, 0.04);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, "Apple SD Gothic Neo", "Noto Sans KR",
+          "Malgun Gothic", "Helvetica Neue", Arial;
+        line-height: 1.6;
+        color: var(--text);
+        background: var(--bg);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .container {
+        width: min(var(--container), calc(100% - 40px));
+        margin: 0 auto;
+        padding: 28px 0 60px 0;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: center;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 22px;
+      }
+
+      .title {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: -0.01em;
+      }
+
+      .pill {
+        border: 1px solid var(--border);
+        background: var(--card);
+        padding: 8px 10px;
+        border-radius: 999px;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .header {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin: 10px 0 22px 0;
+      }
+
+      .name {
+        font-size: 40px;
+        margin: 0;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+
+      .accent {
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 16px;
+      }
+
+      .card h2 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+      }
+
+      ul {
+        margin: 8px 0 0 0;
+        padding-left: 18px;
+      }
+
+      @media print {
+        .topbar {
+          display: none;
+        }
+        body {
+          background: #fff;
+          color: #000;
+        }
+        .card {
+          break-inside: avoid;
+          background: #fff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="topbar">
+        <h1 class="title">이력서</h1>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="pill" href="./index.html">포트폴리오로</a>
+          <a class="pill" href="javascript:window.print()">PDF로 저장</a>
+        </div>
+      </div>
+
+      <header class="header">
+        <h2 class="name">
+          홍길동 <span class="accent">Frontend Engineer</span>
+        </h2>
+        <div class="muted">
+          hello@example.com · github.com/username · 서울/원격
+        </div>
+        <p class="muted" style="margin:0;">
+          사용자 경험과 제품 임팩트를 중심으로 설계/개발/개선을 반복합니다.
+        </p>
+      </header>
+
+      <div class="grid">
+        <section class="card">
+          <h2>요약</h2>
+          <ul>
+            <li>React/TypeScript 기반 제품 개발 및 운영</li>
+            <li>성능/접근성 개선으로 지표 및 CS 개선 경험</li>
+            <li>컴포넌트/디자인 시스템 구축 및 표준화</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2>경력</h2>
+          <p style="margin:0;"><strong>회사명</strong> — Frontend Engineer <span class="muted">(2023.01 – 현재)</span></p>
+          <ul>
+            <li>핵심 결제 플로우 리뉴얼 및 실험 설계</li>
+            <li>공용 컴포넌트 라이브러리 구축</li>
+            <li>Web Vitals 개선 (LCP/CLS/INP)</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2>프로젝트 하이라이트</h2>
+          <ul>
+            <li><strong>프로젝트 A</strong>: 가입 전환율 개선, LCP 3.2s → 1.6s</li>
+            <li><strong>프로젝트 B</strong>: 대시보드 접근성/사용성 개선</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2>기술</h2>
+          <p class="muted" style="margin:0;">
+            React · TypeScript · Next.js · Node.js · PostgreSQL · Docker · GitHub Actions
+          </p>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
+
+

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>과제 전시 | 홍길동</title>
+    <meta
+      name="description"
+      content="공간과 시간을 형상화한 8장 과제 전시 — 가벼운 인터랙션으로 넘겨보기"
+    />
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles-gallery.css" />
+    <script defer src="./gallery.js"></script>
+  </head>
+  <body class="gallery-body">
+    <a class="skip-link" href="#main">본문 바로가기</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <span class="brand-link" aria-label="과제 전시">
+            <span class="brand-mark" aria-hidden="true">●</span>
+            <span class="brand-text">과제 전시</span>
+          </span>
+          <p class="brand-subtitle">Space × Time</p>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="museum" aria-label="3D 전시 뷰어">
+      <div class="museum-overlay" aria-hidden="true"></div>
+
+      <section class="museum-ui container">
+        <header class="museum-head">
+          <p class="eyebrow">전시 뷰어</p>
+          <h1 class="museum-title">
+            세로는 <span class="accent">시간(주차)</span>, 가로는
+            <span class="accent">공간(페이지)</span>.
+          </h1>
+          <p class="museum-desc muted">
+            모바일: 위/아래로 주차 이동 · 좌/우로 주차 내 페이지 이동
+          </p>
+        </header>
+
+        <section class="gridspace card" aria-label="시공간 그리드 전시">
+          <div class="grid-hint" aria-hidden="true">scroll ↑↓ (주차) · swipe ←→ (페이지)</div>
+          <div
+            class="board"
+            id="board"
+            role="region"
+            aria-label="전시 보드(상하좌우 스크롤)"
+            tabindex="0"
+          >
+            <div class="board-grid" id="board-grid" aria-hidden="false"></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div class="lightbox" id="lightbox" hidden>
+      <div class="lightbox-backdrop" data-close="true" aria-hidden="true"></div>
+      <div
+        class="lightbox-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="작품 확대 보기"
+      >
+        <div class="lightbox-top">
+          <div class="lightbox-title">
+            <span class="stamp" id="lb-ts">1주차</span>
+            <strong id="lb-title">Page 1</strong>
+          </div>
+          <button class="btn btn-ghost btn-small" type="button" data-close="true">
+            닫기
+          </button>
+        </div>
+        <div class="lightbox-media">
+          <img id="lb-img" alt="확대된 과제 이미지" loading="eager" />
+        </div>
+        <p class="muted lightbox-cap" id="lb-cap"></p>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p class="muted">© <span id="year"></span> 홍길동</p>
+      </div>
+    </footer>
+
+    <script>
+      // year only (gallery.js는 뷰어 로직)
+      const el = document.getElementById("year");
+      if (el) el.textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>
+
+
